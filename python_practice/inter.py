@@ -17,6 +17,7 @@ from selenium.common.exceptions import NoSuchElementException,JavascriptExceptio
 uid = ''
 upw = ''
 
+
 def cdrive():
     url = 'C:\chromedriver_win32\chromedriver.exe'
     
@@ -95,7 +96,7 @@ def search():
         driver.implicitly_wait(2)
         loop2('14시 00분')
         driver.implicitly_wait(2)
-        btnclick("//div[@class='contR']",'LargeNextBtnImage')
+        btnclick("//div[@class='contR']",'LargeNextBtn')
         
         
         
@@ -128,17 +129,25 @@ def peakseat():
     
     box = driver.find_elements_by_xpath("//img[@class='stySeat']")
     if box == None:
+    #if True:
+        driver.switch_to_default_content()
+        driver.switch_to.frame(driver.find_element_by_id('ifrmSeat'))
         driver.switch_to.frame(driver.find_element_by_id('ifrmSeatView'))
         btntry('javascript:GetBlockSeatList("", "", "RGN002");')
+        driver.switch_to_default_content()
+        driver.switch_to.frame(driver.find_element_by_id('ifrmSeat'))
+        driver.switch_to.frame(driver.find_element_by_id('ifrmSeatDetail'))
         box = driver.find_elements_by_xpath("//img[@class='stySeat']")
-        
+    
+  
     box[0].click()
-    btnclick("//div[@class='buy_info']",'LargeNextBtnImage')
+    btnclick("//div[@class='buy_info']",'NextStepImage')
     
 def btntry(t):
     try:
         driver.execute_script(t)
     except JavascriptException:
+
         btntry(t)
 
 def loop1(day):
@@ -184,7 +193,7 @@ def loop2(time):
         
 def btnclick(a,m):
     try:
-        driver.switch_to_default_content 
+        driver.switch_to_default_content() 
         #driver.switch_to.frame(driver.find_element_by_id('divBookMain'))
         box = driver.find_element_by_xpath(a)
         to = box.find_element_by_id(m)
@@ -221,4 +230,3 @@ if __name__ == '__main__':
             isend = False
             
     print("완료"+str(datetime.now()))
-    
